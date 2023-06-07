@@ -1,4 +1,4 @@
-# Podinfo - Vy-pod-app
+# Podinfo - Vy-pod-app test app
 
 A simple score project deploying podinfo.
 
