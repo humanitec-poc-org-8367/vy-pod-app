@@ -16,7 +16,6 @@ containers:
     variables:
 
       HELLO: WORLD
-      a: k
       CONNECTION_STRING: postgresql://${resources.psql-db.username}:${resources.psql-db.password}@${resources.psql-db.host}:${resources.psql-db.port}/${resources.psql-db.name}
 
 
