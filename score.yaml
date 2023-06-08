@@ -10,11 +10,50 @@ service:
       targetPort: 9898 # The port that the container will be listening on
 
 containers:
+
   frontend:
+
     variables:
+
       HELLO: WORLD
-      NAME: VIVEK
+
+      CONNECTION_STRING: postgresql://${resources.psql-db.username}:${resources.psql-db.password}@${resources.psql-db.host}:${resources.psql-db.port}/${resources.psql-db.name}
+
+
+
 
 resources:
-  dns: # We need a DNS record to point to the service 
+
+  dns: # We need a DNS record to point to the service
+
     type: dns
+
+  bucket:
+
+    type: s3
+
+  psql-db:
+
+    type: postgres
+
+    properties:
+
+      host:
+
+        default: psql-db
+
+      port:
+
+        default: 5432
+
+      name:
+
+        default: psql-db
+
+      username:
+
+        default: gaurav
+
+      password:
+
+        default: defaultpass
