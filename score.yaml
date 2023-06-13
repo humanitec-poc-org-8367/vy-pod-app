@@ -13,7 +13,7 @@ containers:
   frontend:
     variables:
       HELLO: WORLD
-      NAME: VIV_Y
+NAME: VIV_Y
 
  
 
