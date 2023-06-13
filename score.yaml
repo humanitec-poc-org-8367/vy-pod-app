@@ -1,15 +1,15 @@
-apiVersion: score.dev/v1b33
+apiVersion: score.dev/v1b1
 
 metadata:
   name: "vy-pod-app"
 
-servicee:
+service:
   ports:
     www:
       port: 80 # The port that the service will be exposed on
       targetPort: 9898 # The port that the container will be listening on
 
-containeer:
+container:
   frontend:
     variables:
       HELLO: WORLD
