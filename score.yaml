@@ -9,11 +9,11 @@ service:
       port: 80 # The port that the service will be exposed on
       targetPort: 9898 # The port that the container will be listening on
 
-containers:
+containrsdsd:
   frontend:
     variables:
       HELLO: WORLD
-NAME: VIV_Y
+      NAME: VIV_Y
 
  
 
