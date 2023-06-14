@@ -9,7 +9,7 @@ servicesasasas:
       port: 80 # The port that the service will be exposed on
       targetPort: 9898 # The port that the container will be listening on
 
-containersasasas:
+name:
   frontend:
     variables:
       HELLO: WORLD
