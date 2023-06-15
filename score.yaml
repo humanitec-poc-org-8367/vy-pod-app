@@ -3,7 +3,7 @@ apiVersion: score.dev/v1b34243
 metadata:
   name: "vy-pod-app"
 
-servicesasasas:
+servicesasass:
   ports:
     www:
       port: 80 # The port that the service will be exposed on
