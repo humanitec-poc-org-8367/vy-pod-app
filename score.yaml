@@ -13,8 +13,6 @@ containers:
   frontend:
     variables:
       HELLO: WORLD
-      NAME: VIVEK
-
  
 
 resources:
