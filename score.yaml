@@ -12,7 +12,7 @@ service:
 containers:
   frontend:
     variables:
-      HELLO: WORLD
+      HELLO: WORLDD
  
 
 resources:
