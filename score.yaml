@@ -13,8 +13,6 @@ containers:
   frontend:
     variables:
       HELLO: WORLD
-      NAME: VIVEK
- 
 
 resources:
   dns: # We need a DNS record to point to the service 
