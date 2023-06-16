@@ -118,7 +118,7 @@ jobs:
 
           ./score-humanitec delta --env staging --overrides ./humanitec.score.yaml --app vy-pod-app --org="${{ secrets.HUMANITEC_ORG_ID_POC_12 }}" --token "${{ secrets.HUMANITEC_TOKEN_POC_12 }}" --deploy
       
-      - name: Wait for deployment on dev staging
+      - name: Wait for deployment on staging env
         run: |
           sleep 1
           IS_DONE=false
