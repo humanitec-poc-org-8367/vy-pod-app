@@ -68,6 +68,26 @@ jobs:
           EOF
 
           ./score-humanitec delta --env development1 --overrides ./humanitec.score.yaml --app vy-pod-app --org="${{ secrets.HUMANITEC_ORG_ID_POC_12 }}" --token "${{ secrets.HUMANITEC_TOKEN_POC_12 }}" --deploy
+          
+      - name: Wait for deployment
+        run: |
+          sleep 1
+          IS_DONE=false
+          while [ "$IS_DONE" = false ]; do
+            CURRENT_STATUS=$(curl \
+              -H "Content-Type: application/json" \
+              -H 'Authorization: Bearer ${{ secrets.HUMANITEC_TOKEN }}' \
+              https://api.humanitec.io/orgs/${{ vars.HUMANITEC_ORG }}/apps/${{ vars.APP_NAME }}/envs/development1 \
+              | jq -r ".last_deploy.status")
+            
+            INPROGRESS="in progress"
+            if [ "$CURRENT_STATUS" = "$INPROGRESS" ]; then
+              echo "Deployment still in progress..."
+              sleep 1
+            else
+              echo "Deployment complete!"
+              IS_DONE=true
+            fi
       
       - name : Install Python Packages 
         run : pip install pytest
