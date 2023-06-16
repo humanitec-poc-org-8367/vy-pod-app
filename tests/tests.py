@@ -25,6 +25,7 @@
 #
 
 import unittest
+import generatesitemap as gs
 import os
 
 def validateDate(s) :
