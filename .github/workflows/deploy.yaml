@@ -69,7 +69,7 @@ jobs:
 
           ./score-humanitec delta --env development1 --overrides ./humanitec.score.yaml --app vy-pod-app --org="${{ secrets.HUMANITEC_ORG_ID_POC_12 }}" --token "${{ secrets.HUMANITEC_TOKEN_POC_12 }}" --deploy
           
-      - name: Wait for deployment
+      - name: Wait for deployment on dev env
         run: |
           sleep 1
           IS_DONE=false
@@ -77,7 +77,7 @@ jobs:
             CURRENT_STATUS=$(curl \
               -H "Content-Type: application/json" \
               -H 'Authorization: Bearer ${{ secrets.HUMANITEC_TOKEN }}' \
-              https://api.humanitec.io/orgs/${{ secrets.HUMANITEC_ORG_ID_POC_12 }}/apps/${{ vars.APP_NAME }}/envs/development1 \
+              https://api.humanitec.io/orgs/${{ secrets.HUMANITEC_ORG_ID_POC_12 }}/apps/vy-pod-app/envs/development1 \
               | jq -r ".last_deploy.status")
             
             INPROGRESS="in progress"
@@ -117,3 +117,24 @@ jobs:
           EOF
 
           ./score-humanitec delta --env staging --overrides ./humanitec.score.yaml --app vy-pod-app --org="${{ secrets.HUMANITEC_ORG_ID_POC_12 }}" --token "${{ secrets.HUMANITEC_TOKEN_POC_12 }}" --deploy
+      
+      - name: Wait for deployment on dev staging
+        run: |
+          sleep 1
+          IS_DONE=false
+          while [ "$IS_DONE" = false ]; do
+            CURRENT_STATUS=$(curl \
+              -H "Content-Type: application/json" \
+              -H 'Authorization: Bearer ${{ secrets.HUMANITEC_TOKEN }}' \
+              https://api.humanitec.io/orgs/${{ secrets.HUMANITEC_ORG_ID_POC_12 }}/apps/vy-pod-app/envs/staging \
+              | jq -r ".last_deploy.status")
+            
+            INPROGRESS="in progress"
+            if [ "$CURRENT_STATUS" = "$INPROGRESS" ]; then
+              echo "Deployment still in progress..."
+              sleep 1
+            else
+              echo "Deployment complete!"
+              IS_DONE=true
+            fi
+          done
