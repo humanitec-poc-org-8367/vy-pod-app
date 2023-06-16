@@ -12,7 +12,8 @@ service:
 containers:
   frontend:
     variables:
-      HELLO: WORLDD
+      HELLO: WORLD
+      NAME: VIVEK
  
 
 resources:
