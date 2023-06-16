@@ -47,7 +47,7 @@ jobs:
                 "image": "'$ECR/$IMAGE:$TAG'",
                 "tags": ["'$TAG'"]
             }'
-      - name: Deploy using Score
+      - name: Deploy using Score on development environment
         run: |
           wget https://github.com/score-spec/score-humanitec/releases/download/0.4.0/score-humanitec_0.4.0_linux_amd64.tar.gz
           tar -xvzf ./score-humanitec_0.4.0_linux_amd64.tar.gz
@@ -68,3 +68,33 @@ jobs:
           EOF
 
           ./score-humanitec delta --env development1 --overrides ./humanitec.score.yaml --app vy-pod-app --org="${{ secrets.HUMANITEC_ORG_ID_POC_12 }}" --token "${{ secrets.HUMANITEC_TOKEN_POC_12 }}" --deploy
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run Python unit tests
+        run: python3 -u -m unittest tests/tests.py
+        
+      - name: Deploy using Score on staging environment
+        run: |
+          wget https://github.com/score-spec/score-humanitec/releases/download/0.4.0/score-humanitec_0.4.0_linux_amd64.tar.gz
+          tar -xvzf ./score-humanitec_0.4.0_linux_amd64.tar.gz
+
+          cat <<EOF > humanitec.score.yaml
+          apiVersion: humanitec.org/v1b1
+          spec:
+            ingress:
+              rules:
+                "\${resources.dns}": # This is the DNS record that we defined in the resources section
+                  http:
+                    "/":
+                      type: prefix
+                      port: 80
+          containers:
+            frontend:
+              image: $ECR/$IMAGE:$TAG
+          EOF
+
+          ./score-humanitec delta --env staging --overrides ./humanitec.score.yaml --app vy-pod-app --org="${{ secrets.HUMANITEC_ORG_ID_POC_12 }}" --token "${{ secrets.HUMANITEC_TOKEN_POC_12 }}" --deploy
